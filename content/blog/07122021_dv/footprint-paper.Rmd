@@ -380,5 +380,8 @@ ggplotly(scat_plot1, tooltip = "text") %>%
 
 ```
 
+## Conclusion
+
+From the various methods used in this paper, we can conclude with a clear understanding of the effects of the push towards economic growth and development have on the environment. Ecological footprint is adversely affected due to the growth enterprise along with a unrestrained usage of resources, and while this trend seems to be reversing as mentioned in some research done on the topic – we need to push for sustainability in this aspect right away. A few key takeaways from this paper are the relationship found between HDI and Ecological Footprint – where it is seen that even with increasing HDI the Ecological Footprint does not decrease. Instead we see a positive relationship with an increase in HDI over the countries. This has a few implications, namely that developed countries have still not rounded the curve on efficiency gains – where they are still behind schedule in their push for a more sustainable future. This leaves us at an impasse, where public policy has many debates regarding the feasibility of large expenditures for bills such as the infrastructure bill and the Green New Deal. Are they worth it? This paper leads us to believe that more investment into sustainability is needed and fast, as future generations will suffer in case that we do not curb our incessant consumption patterns. 
 
 # References 
