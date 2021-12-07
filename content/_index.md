@@ -8,7 +8,7 @@ images:
 - img/revoir.jpg
 show_action_link: true
 show_social_links: true
-subtitle: Aspiring Data Scientist
+subtitle: Aspiring Data Scientist now
 text_align_left: false
 title: Shreyas Meher
 type: home
