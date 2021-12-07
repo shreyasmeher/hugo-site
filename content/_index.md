@@ -2,10 +2,10 @@
 action_label: Read More &rarr;
 action_link: /about
 action_type: text
-description: Sit down, relax, and check out all the cool stuff that I'm working on!
-image_left: true
+description: Sit down, relax, and check out all the cool stuff that I'm working on! 
+image_left: false
 images:
-- img/revoir.jpg
+- img/front.jpg
 show_action_link: true
 show_social_links: true
 subtitle: Aspiring Data Scientist 
