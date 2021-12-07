@@ -1,0 +1,304 @@
+---
+title: "Data Visualization Project - Shreyas Meher"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    social: menu
+    source_code: embed
+    theme: lumen
+---
+
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+footprint <- read.csv("countries.csv")
+
+library(rgdal) # plot map
+library(leaflet) # plot map
+library(dplyr) # data wrangling
+library(tidyr) # data wrangling
+library(ggplot2) # plot
+library(plotly) # interactive plot
+library(shiny) # shiny
+library(shinydashboard) # shiny dashboard
+library(ggthemes) # themes for ggplot2
+library(extrafont) # fonts for ggplot2
+```
+
+
+
+Top 10 countries by ecological footprint {data-orientation=columns}
+==========================================================================
+
+Sidebar {.sidebar}
+-----------------------------------------------------------------------
+### Countries with high Ecological Footprints
+
+- From the resultant plot, we can see that most of the countries in the top 10 of Ecological Footprint data are developed nations - with only Qatar, Trinidad and Tobago and Oman being the lesser developed of the 10. 
+
+- This is corroborated by research by Niccolucci, V., et al. (2012) and other researchers who find out that the developed world has a few factors which lead to overuse of natural resources due to industrialization and a better ability at extracting resources more efficiently. 
+
+Column {data-width=400}
+------------------------------------------------------------------------------
+### Top 10 Ecological Footprint countries
+```{r}
+# Selecting top 10 countries and arranging by ecological footprint
+
+top_10 <- top_n(footprint, n=10, Total.Ecological.Footprint) %>% 
+  arrange(desc(Total.Ecological.Footprint))
+
+
+p3<-ggplot(top_10,aes(x= reorder(Country, -Total.Ecological.Footprint), y=Total.Ecological.Footprint, fill = Total.Ecological.Footprint))+
+  scale_fill_gradient(
+    low = "#BE6741",
+    high = "#FB0421",
+    space = "Lab",
+    na.value = "grey50",
+    guide = "colourbar",
+    aesthetics = "fill"
+  )+ 
+  geom_col()+scale_x_discrete(guide = guide_axis(n.dodge=3))+
+  theme(axis.text.x = element_text(angle = 40, vjust = 1, hjust =1),
+        legend.position = "none")+
+  
+  # Changing labels
+  
+  labs(y = "Total Ecological Footprint in global hectares",
+       x = '',
+       title = "Highest Ecological Footprint Countries",
+       caption = 'Source: Global Ecoogical Footprint, Global Footprint Network')
+
+p3 + theme_minimal()
+
+```
+
+Column {data-width=400}
+------------------------------------------------------------------------------
+
+### Top 10 Biocapacity countries
+
+```{r}
+
+# Selecting top 10 countries and arranging by Biocapacity
+
+top2_10 <- top_n(footprint, n=10, Total.Biocapacity) %>% 
+  arrange(desc(Total.Biocapacity))
+
+# Plotting
+
+p4<-ggplot(top2_10,aes(x= reorder(Country, -Total.Biocapacity), y=Total.Biocapacity, fill = Total.Biocapacity))+
+  scale_fill_gradient(
+    low = "#9BC8AE",
+    high = "#067736",
+    space = "Lab",
+    na.value = "grey50",
+    guide = "colourbar",
+    aesthetics = "fill"
+  )+ 
+  geom_col()+scale_x_discrete(guide = guide_axis(n.dodge=3))+
+  theme(axis.text.x = element_text(angle = 40, vjust = 1, hjust =1),
+        legend.position = "none")+
+  
+  # Changing labels
+  
+  labs(y = "Total Biocapacity in global hectares",
+       x = '',
+       title = "Highest Biocapacity Countries",
+       caption = 'Source: Global Ecoogical Footprint, Global Footprint Network')
+ + theme(plot.subtitle = element_text(family = "serif"),
+    plot.caption = element_text(family = "serif"),
+    axis.text = element_text(family = "serif"),
+    axis.text.x = element_text(family = "serif"),
+    axis.text.y = element_text(family = "serif"),
+    legend.text = element_text(family = "serif"),
+    legend.title = element_text(family = "serif")) +labs(x = NULL)
+
+p2 + theme_minimal()
+
+```
+
+Region-wise visualization of Ecological Footprint and Biocapacity {data-orientation=columns}
+==========================================================================
+
+Sidebar {.sidebar}
+-----------------------------------------------------------------------
+### Ecological Footprint & Biocapacity by Region
+
+- Continuing on, we can clearly see the difference in Ecological Footprint versus the Biocapacity of the various regions in the world. 
+- The dataset was mutated so as to help with the visualization of this variable, and the data was made interactive so as to give the exact values if you hover your mouse over the columns.
+- Here, we can tell that the European Union, on account of the number of developed nations it consists of along with Central Asia have the largest Ecological Footprint. 
+- Conversely, Latin America and Africa - which are not on the higher Ecological Footprint ranks, have a greater Biocapacity. 
+
+Column {data-width=400}
+------------------------------------------------------------------------------
+### Ecological Footprint by Region
+
+```{r}
+
+footprint <- footprint %>%
+  mutate(Country = as.character(Country), GDP.per.Capita = as.numeric(gsub("[$,]",
+                                                                           "", footprint$GDP.per.Capita)), HDI = round(HDI,
+                                                                                                                       2), Countries.Required = round(Countries.Required,
+                                                                                                                                                      2), Biocapacity.Deficit = as.factor(ifelse(Biocapacity.Deficit >
+                                                                                                                                                                                                   0, "Reserve", "Deficit"))) %>%
+  rename(Status = Biocapacity.Deficit) %>%
+  select(-c(Data.Quality)) %>%
+  drop_na()
+
+
+# Ecological Footprint and Biocapacity plots
+
+ef_region <- footprint %>%
+  group_by(Region) %>%
+  summarize(Ecological.Footprint = sum(Total.Ecological.Footprint)) %>%
+  arrange(desc(Ecological.Footprint)) %>%
+  mutate(text = paste0("Ecological Footprint: ",
+                       Ecological.Footprint, " gha"))
+
+
+ef_reg_plot <- ggplot(ef_region, aes(x = reorder(Region,
+                                                 Ecological.Footprint), y = Ecological.Footprint,
+                                     text = text)) + geom_col(aes(fill = Ecological.Footprint),
+                                                              show.legend = F) + coord_flip() + labs(title = "Ecological Footprint by Region",
+                                                                                                     y = "global hectares (gha)", x = NULL) + scale_y_continuous(limits = c(0,
+                                                                                                                                                                            150), breaks = seq(0, 150, 25)) + scale_fill_gradient(low = "#F78181",
+                                                                                                                                                                                                                                  high = "#3B0B0B") + theme(plot.title = element_text(face = "bold",
+                                                                                                                                                                                                                                                                                      size = 14, hjust = 0.04), axis.ticks.y = element_blank(),
+                                                                                                                                                                                                                                                            panel.background = element_rect(fill = "#ffffff"),
+                                                                                                                                                                                                                                                            panel.grid.major.x = element_line(colour = "grey"),
+                                                                                                                                                                                                                                                            axis.line.x = element_line(color = "grey"), axis.text = element_text(size = 10,
+                                                                                                                                                                                                                                                                                                                                 colour = "black"))
+
+ggplotly(ef_reg_plot, tooltip = "text")
+
+
+```
+Column {data-width=400}
+------------------------------------------------------------------------------
+
+### Biocapacity by Region
+
+```{r}
+
+b_region <- footprint %>%
+  group_by(Region) %>%
+  summarize(Biocapacity = sum(Total.Biocapacity)) %>%
+  arrange(desc(Biocapacity)) %>%
+  mutate(text = paste0("Biocapacity: ", Biocapacity,
+                       " gha"))
+
+b_reg_plot <- ggplot(b_region, aes(x = reorder(Region,
+                                               Biocapacity), y = Biocapacity, text = text)) +
+  geom_col(aes(fill = Biocapacity), show.legend = F) +
+  coord_flip() + labs(title = "Biocapacity by Region",
+                      y = "global hectares (gha)", x = NULL) + scale_y_continuous(limits = c(0,
+                                                                                             275), breaks = seq(0, 250, 50)) + scale_fill_gradient(low = "#9AFE2E",
+                                                                                                                                                   high = "#0B6121") + theme(plot.title = element_text(face = "bold",
+                                                                                                                                                                                                       size = 14, hjust = 0.04), axis.ticks.y = element_blank(),
+                                                                                                                                                                             panel.background = element_rect(fill = "#ffffff"),
+                                                                                                                                                                             panel.grid.major.x = element_line(colour = "grey"),
+                                                                                                                                                                             axis.line.x = element_line(color = "grey"), axis.text = element_text(size = 10,
+                                                                                                                                                                                                                                                  colour = "black"))
+ggplotly(b_reg_plot, tooltip = "text")
+
+
+
+```
+
+
+Ecological Footprint according to GDP {data-orientation=columns}
+==========================================================================
+
+Sidebar {.sidebar}
+-----------------------------------------------------------------------
+
+### Ecological Footprint & GDP
+
+- To find out the relationship between the GDP of the country and the Ecological footprint, I am using a simple linear plot to estimate the relationship. 
+- With the output, we can see that as GDP increases, the Ecological footprint increases correspondingly. 
+- The data used is from the Global Footprint Network website and the data set is freely accessible to all. 
+- I created a unique data set gleaning from a few variables from the GFN along with World Bank data. 
+- The result has considerable implications, with research done by Mattila (2012) & Toth & Szigeti (2016) echoing similar concerns regarding the over-exploitation of natural resources in the race to obtain higher economic growth. 
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Ecological Footprint ~ GDP
+```{r}
+# data loading
+
+
+
+# GDP and Ecological footprint
+
+p1<-ggplot(footprint, aes(x=HDI, y=Total.Ecological.Footprint))+
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE)+
+  labs(y = "Total Ecological Footprint in global hectares",
+       x = 'GDP',
+       title = "Ecological Footprint according to GDP",
+       caption = 'Source: Global Ecoogical Footprint, Global Footprint Network')
+
+p1 + theme_minimal()
+
+```
+
+
+
+Investigating the correlation between GDP and Ecological Footprint {data-orientation=columns}
+==========================================================================
+
+Sidebar {.sidebar}
+-----------------------------------------------------------------------
+
+### Correlation between GDP and Ecological Footprint
+
+- This is a much nicer plot with interactive elements within it. 
+- The progression with this graph is the added interactivity and the data that is included when you hover your mouse over the points. 
+- You can zoom into a section by selecting a part of the plot with a mouse click, and then focus on certain data points. 
+- The deficit/reserve is indicated by a red or green circle, which gives us an idea of the overall trend while keeping into account the GDP on the X-axis at the same time. 
+- While in the previous plot, we saw a linear relationship, here we can focus on other variables along with the Ecological Footprint. 
+- Sweden and Denmark act as a interesting contrast, being neighboring nations with similar GDP but Denmark on account of its' small size is at a deficit while Sweden has a Ecological Reserve. 
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### GDP and Ecological Footprint
+```{r}
+
+
+# Scatterplot between GDP and Ecological Footprint
+
+scat_plot_data <- footprint %>%
+  select(Country, Population.millions, GDP.per.Capita,
+         HDI, Total.Ecological.Footprint, Status) %>%
+  rename(Population.in.millions = Population.millions,
+         Human.Development.Index = HDI, Ecological.Footprint = Total.Ecological.Footprint) %>%
+  mutate(text = paste0("Country: ", Country, "<br>",
+                       "HDI: ", Human.Development.Index, "<br>", "Ecological Footprint: ",
+                       Ecological.Footprint, "<br>", "GDP per Capita: ",
+                       "$", GDP.per.Capita))
+
+scat_plot <- ggplot(scat_plot_data, aes(x = GDP.per.Capita,
+                                        y = Ecological.Footprint, text = text)) + geom_smooth(col = "#61380B",
+                                                                                              size = 0.7) + geom_point(aes(color = Status, size = GDP.per.Capita)) +
+  scale_y_continuous(limits = c(0, 18)) + scale_color_manual(values = c("#FF0000",
+                                                                        "#1AE546")) + labs(title = "GDP on Ecological Footprint",
+                                                                                           y = "Ecological Footprint", x = "GDP Per Capita") +
+  theme(plot.title = element_text(face = "bold",
+                                  size = 14, hjust = 0), panel.background = element_rect(fill = "#ffffff"),
+        panel.grid.major.x = element_line(colour = "grey"),
+        panel.grid.major.y = element_line(colour = "grey"),
+        axis.line.x = element_line(color = "grey"),
+        axis.line.y = element_line(color = "grey"),
+        axis.text = element_text(size = 10, colour = "black"),
+        legend.title = element_blank())
+
+ggplotly(scat_plot, tooltip = "text") %>%
+  layout(legend = list(orientation = "v", y = 1,
+                       x = 0))
+
+```
+
+
+

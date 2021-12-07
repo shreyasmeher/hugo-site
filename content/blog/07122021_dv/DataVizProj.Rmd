@@ -1,0 +1,65 @@
+---
+title: "Data Viz Proj"
+author: "Shreyas Meher"
+date: "11/27/2021"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    social: menu
+    source_code: embed
+---
+
+```{r setup, include=FALSE}
+
+library(rgdal) # plot map
+library(leaflet) # plot map
+library(dplyr) # data wrangling
+library(tidyr) # data wrangling
+library(ggplot2) # plot
+library(plotly) # interactive plot
+library(shiny) # shiny
+library(shinydashboard) # shiny dashboard
+library(ggthemes) # themes for ggplot2
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Ecological Footprint according to GDP {data-orientation=columns}
+====================================================
+
+Sidebar {.sidebar}
+----------------------------------------------------
+### Ecological Footprint ~ GDP
+
+*To find out the relationship between the GDP of the country and the Ecological footprint, I am using a simple linear plot to estimate the relationship.
+*With the output, we can see that as GDP increases, the Ecological footprint increases correspondingly. The data used is from the Global Footprint Network website (https://www.footprintnetwork.org/) and the dataset is freely accessible to all. 
+*I created a unique dataset gleaning from a few variables from the GFN along with World Bank data. 
+
+
+```{r}
+# data loading
+
+footprint <- read.csv("countries.csv")
+
+library(rgdal) # plot map
+library(leaflet) # plot map
+library(dplyr) # data wrangling
+library(tidyr) # data wrangling
+library(ggplot2) # plot
+library(plotly) # interactive plot
+library(shiny) # shiny
+library(shinydashboard) # shiny dashboard
+library(ggthemes) # themes for ggplot2
+
+# GDP and Ecological footprint
+
+ggplot(footprint, aes(x=HDI, y=Total.Ecological.Footprint))+
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE)+
+  labs(y = "Total Ecological Footprint in global hectares",
+       x = 'GDP',
+       title = "Ecological Footprint according to GDP",
+       caption = 'Source: Global Ecoogical Footprint, Global Footprint Network')
+```
+
+
