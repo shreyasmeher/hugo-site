@@ -374,11 +374,8 @@ scat_plot1 <- ggplot(scat_plot_data1, aes(x = GDP.per.Capita,
 ggplotly(scat_plot1, tooltip = "text") %>%
   layout(legend = list(orientation = "v", y = 1,
                        x = 0))
-
-
-
-
 ```
+
 
 ## Conclusion
 
