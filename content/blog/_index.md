@@ -19,9 +19,9 @@ sidebar:
   author: Shreyas Meher @Onlinecape
   description: "Here are a few of the things that I am working on. \n"
   show_sidebar_adunit: true
-  text_link_label: Subscribe via RSS
+  text_link_label: 
   text_link_url: /index.xml
-  title: A Sidebar for Your Thoughts
+  title: Check it out!
 thumbnail_left: true
 title: Some of my work
 ---
