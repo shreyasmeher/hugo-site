@@ -7,8 +7,8 @@ show_social_links: true # specify social accounts in site config
 audio_link_label: "" # leave blank to exclude
 link_list_label: "Interests" # bookmarks, elsewhere, etc.
 link_list:
-- name: Food
-  url: https://www.sporkful.com/
+- name: Mechanical Keyboards
+  url: https://www.reddit.com/r/MechanicalKeyboards
 - name: Laugh
   url: https://www.reddit.com/r/photoshopbattles/
 - name: Music
