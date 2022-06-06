@@ -103,7 +103,7 @@ enableEmoji = true
       url       = "https://www.linkedin.com/in/shreyasmeher/"
   [[params.social]]
       icon      = "user-graduate" # icon name without the 'fa-'
-      icon_pack = "fab"
+      icon_pack = "fas"
       url = "https://www.dropbox.com/s/pk97n5e2kdg0afh/Shreyas-May-2022.pdf?dl=0"
 
 
