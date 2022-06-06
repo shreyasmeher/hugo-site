@@ -101,6 +101,10 @@ enableEmoji = true
       icon      = "linkedin" # icon name without the 'fa-'
       icon_pack = "fab"
       url       = "https://www.linkedin.com/in/shreyasmeher/"
+  [[params.social]]
+      icon      = "cv" # icon name without the 'fa-'
+      icon_pack = "fab"
+      url       = "https://www.dropbox.com/s/pk97n5e2kdg0afh/Shreyas-May-2022.pdf?dl=0"
 
 
 [taxonomies]
