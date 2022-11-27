@@ -104,7 +104,7 @@ enableEmoji = true
   [[params.social]]
       icon      = "user-graduate" # icon name without the 'fa-'
       icon_pack = "fas"
-      url = "https://www.dropbox.com/s/pk97n5e2kdg0afh/Shreyas-May-2022.pdf?dl=0"
+      url = "https://www.dropbox.com/s/4ps4868gbxwflwr/Shreyas-Nov22.pdf?dl=0"
 
 
 [taxonomies]
@@ -127,7 +127,7 @@ enableEmoji = true
   [[menu.header]]
     name = "CV"
     title = "CV"
-    url = "/docs/Shreyas-May22.pdf"
+    url = "/docs/Shreyas-Nov22.pdf"
     weight = 3
   
   
