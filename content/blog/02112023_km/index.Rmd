@@ -5,7 +5,7 @@ date: 2/11/2023
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r featured}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
