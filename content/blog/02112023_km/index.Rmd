@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This is Lab1 for EPPS 6323. 
+This is Lab1 for EPPS 6323.
 
 ```{r cars}
 x <- c(1,3,2,5)
@@ -26,7 +26,7 @@ length(x)  # What does length() do?
 length(y)
 ```
 
-## Using +, -, *, /,^ operators
+## Using +, -, \*, /,\^ operators
 
 ```{r}
 
@@ -39,7 +39,6 @@ rm(list=ls()) # Danger! What does this do?  Not recommended!
 ```
 
 ## Matrix operations
-
 
 ```{r}
 ?matrix
