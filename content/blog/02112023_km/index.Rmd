@@ -1,7 +1,7 @@
 ---
 title: "Lab1"
 author: "Shreyas Meher"
-date: "2023-02-11"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
