@@ -118,6 +118,7 @@ plot(predict(lm.fit), rstudent(lm.fit))
 plot(hatvalues(lm.fit))
 which.max(hatvalues(lm.fit))
 ```
+
 ## Multiple Linear Regression
 
 ```{r}
@@ -163,4 +164,3 @@ Interaction Terms (including interaction and single effects)
 summary(lm(medv~lstat*age,data=Boston))
 
 ```
-
