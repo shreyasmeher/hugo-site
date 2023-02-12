@@ -9,14 +9,14 @@ cascade:
     show_sidebar_adunit: false
     text_link_label: View recent posts
     text_link_url: /blog/
-description: "Some of my recent work."
+description: "Assignments for EPPS 6323"
 layout: list-sidebar
 show_author_byline: true
 show_post_date: false
 show_post_thumbnail: true
 sidebar:
   author: Shreyas Meher @Onlinecape
-  description: "Here are a few of the things that I am working on. \n"
+  description: "Labs"
   show_sidebar_adunit: true
   text_link_label: 
   text_link_url: /index.xml
