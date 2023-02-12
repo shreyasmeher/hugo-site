@@ -125,10 +125,15 @@ enableEmoji = true
     url = "/blog/"
     weight = 2
   [[menu.header]]
+    name = "Assignments"
+    title = "Assignments"
+    url = "/assignments/"
+    weight = 3
+  [[menu.header]]
     name = "CV"
     title = "CV"
     url = "/docs/Shreyas-Nov22.pdf"
-    weight = 3
+    weight = 4
   
   
   # Configure footer  
